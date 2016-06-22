@@ -1,0 +1,13 @@
+<%= content_tag :fieldset do %>
+  <%= content_tag :legend do %>
+    <%= @element.name %>
+  <% end %>
+  <%= for attribute <- @element.attributes do %>
+    <%= attribute.name %>:
+    <%= text_input(String.to_atom(List.to_string(@element.name)), String.to_atom(List.to_string(attribute.name))) %>
+    <%= tag :br %>
+  <% end %>
+  <%= for element <- @element.elements  do %>
+    <%= render "fieldset.html", element: element %>
+  <% end %>
+<% end %>

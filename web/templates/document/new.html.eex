@@ -1,0 +1,2 @@
+<h2>New document</h2>
+<%= render_form(:catalogocuentas_11, @conn) %>
