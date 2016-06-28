@@ -8,11 +8,12 @@ use Mix.Config
 # Configures the endpoint
 config :sun, Sun.Endpoint,
   url: [host: "localhost"],
-  root: Path.dirname(__DIR__),
   secret_key_base: "CfoDdLIJEU7vwZiQApc3/+iK3EneDwbnpBgw40XeQEyWluLNA3AFyf48QAoS+pqo",
   render_errors: [accepts: ~w(html json)],
   pubsub: [name: Sun.PubSub,
            adapter: Phoenix.PubSub.PG2]
+
+config :sun, ecto_repos: [Sun.Repo]
 
 # Configures Elixir's Logger
 config :logger, :console,

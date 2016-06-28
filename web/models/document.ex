@@ -7,7 +7,7 @@ defmodule Sun.Document do
     timestamps
   end
 
-  def creation_changeset(model, params \\ :empty) do
+  def creation_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(json_data), [])
   end
