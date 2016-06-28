@@ -1,11 +1,14 @@
 defmodule Sun.XSD.Element do
-  require Record
-  alias Sun.XSD.Attribute
+  import Sun.XML.Parser
+  alias Sun.XSD.ComplexType
 
-  Record.defrecord :xmlElement, Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl")
-  Record.defrecord :xmlText,    Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl")
-
-  defstruct name: nil, attributes: [], min_ocurrs: nil, max_ocurrs: nil, doc: nil, elements: [], type: nil
+  defstruct name: nil,
+            min_ocurrs: nil,
+            max_ocurrs: nil,
+            doc: nil,
+            default: nil,
+            type: nil,
+            complex_types: []
 
   def parse_elements_from_xml(elements) do
     for element <- elements do
@@ -14,8 +17,8 @@ defmodule Sun.XSD.Element do
       |> add_min_occurs(element)
       |> add_max_occurs(element)
       |> add_doc(element)
-      |> add_attributes(element)
-      |> add_elements(element)
+      |> add_default(element)
+      |> add_complex_type(element)
     end
   end
 
@@ -51,31 +54,19 @@ defmodule Sun.XSD.Element do
     %{map | doc: doc}
   end
 
-  defp add_attributes(map, element) do
-    attributes =
+  defp add_default(map, element) do
+    doc =
       element
-      |> query('/xs:element/xs:complexType/xs:attribute')
-      |> Attribute.parse_attributes_from_xml
-    %{map | attributes: attributes}
+      |> query('/xs:element/@default')
+      |> fetch_result(8)
+    %{map | default: doc}
   end
 
-  defp add_elements(map, element) do
-    elements =
+  defp add_complex_type(map, element) do
+    complex_types =
       element
-      |> query('/xs:element/xs:complexType/xs:sequence/xs:element')
-      |> parse_elements_from_xml
-    %{map | elements: elements}
-  end
-
-  defp query(element, xpath) do
-    :xmerl_xpath.string(xpath, element)
-  end
-
-  defp fetch_result([head|_], index) do
-    elem(head, index)
-  end
-
-  defp fetch_result([], _) do
-    nil
+      |> query('/xs:element/xs:complexType')
+      |> ComplexType.parse_complex_types_from_xml
+    %{map | complex_types: complex_types }
   end
 end
