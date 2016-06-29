@@ -2,16 +2,16 @@ defmodule Sun.XSD.Attribute do
   import Sun.XML.Parser
   alias Sun.XSD.SimpleType
 
-  defstruct name: nil, use: nil, fixed: nil, type: nil, simple_types: []
+  defstruct name: nil, use: nil, fixed: nil, type: nil, simple_type: nil
 
-  def parse_attributes_from_xml(attributes) do
+  def parse_attributes_from_xml(attributes, opts) do
     for attribute <- attributes do
       %Sun.XSD.Attribute{}
       |> add_name(attribute)
       |> add_use(attribute)
       |> add_fixed(attribute)
       |> add_type(attribute)
-      |> add_simple_types(attribute)
+      |> add_simple_type(attribute, opts)
     end
   end
 
@@ -42,16 +42,38 @@ defmodule Sun.XSD.Attribute do
   defp add_type(map, attribute) do
     type =
       attribute
-      |> query('/xs:attribute/@fixed')
+      |> query('/xs:attribute/@type')
       |> fetch_result(8)
-    %{map | fixed: type}
+    %{map | type: type}
   end
 
-  defp add_simple_types(map, attribute) do
-    simple_types =
-      attribute
-      |> query('/xs:attribute/xs:simpleType')
-      |> SimpleType.parse_simple_types_from_xml
-    %{map | simple_types: simple_types}
+  #defp add_simple_types(map, attribute) do
+  #  simple_types =
+  #    attribute
+  #    |> query('/xs:attribute/xs:simpleType')
+  #    |> SimpleType.parse_simple_types_from_xml
+  #  %{map | simple_types: simple_types}
+  #end
+
+  defp add_simple_type(map, attribute, opts) do
+    %{map | simple_type: get_simple_type(map.type, attribute, opts) }
+  end
+
+  defp get_simple_type(nil, attribute, _opts) do
+    attribute
+    |> query('/xs:attribute/xs:simpleType')
+    |> SimpleType.parse_simple_types_from_xml
+  end
+
+  defp get_simple_type(type, _attribute, [complex_types: complex_types, simple_types: [head|tail]]) do
+    if List.to_string(type) === "cfdi:" <> List.to_string(head.name) do
+      head
+    else
+      get_simple_type(type, [], [complex_types: complex_types, simple_types: tail])
+    end
+  end
+
+  defp get_simple_type(_type, _element, [complex_types: _complex_types, simple_types: []]) do
+    nil
   end
 end

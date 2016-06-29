@@ -4,40 +4,33 @@ defmodule Sun.XSD.Document do
   alias Sun.XSD.ComplexType
   alias Sun.XSD.SimpleType
 
-  defstruct elements: [],
-            complex_types: [],
-            simple_types: []
+  defstruct elements: []
 
   def parse(doc_type) do
     xsd = read_xml(doc_type)
+    simple_types = get_simple_types(xsd)
+    complex_types = get_complex_types(xsd)
     %Sun.XSD.Document{}
-    |> add_elements(xsd)
-    |> add_simple_types(xsd)
-    |> add_complex_types(xsd)
-
+      |> add_elements(xsd, complex_types: complex_types, simple_types: simple_types)
   end
 
-  defp add_elements(map, xsd_doc) do
+  defp add_elements(map, xsd_doc, opts) do
     elements =
       xsd_doc
       |> query('/xs:schema/xs:element')
-      |> Element.parse_elements_from_xml
+      |> Element.parse_elements_from_xml(opts)
     %{map | elements: elements}
   end
 
-  defp add_simple_types(map, xsd_doc) do
-    simple_types =
-      xsd_doc
-      |> query('/xs:schema/xs:simpleType')
-      |> SimpleType.parse_simple_types_from_xml
-    %{map | simple_types: simple_types}
+  defp get_simple_types(xsd_doc) do
+    xsd_doc
+    |> query('/xs:schema/xs:simpleType')
+    |> SimpleType.parse_simple_types_from_xml
   end
 
-  defp add_complex_types(map, xsd_doc) do
-    complex_types =
-      xsd_doc
-      |> query('/xs:schema/xs:complexType')
-      |> ComplexType.parse_complex_types_from_xml
-    %{map | complex_types: complex_types}
+  defp get_complex_types(xsd_doc) do
+    xsd_doc
+    |> query('/xs:schema/xs:complexType')
+    |> ComplexType.parse_complex_types_from_xml
   end
 end
