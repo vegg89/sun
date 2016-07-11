@@ -42,7 +42,7 @@ defmodule Sun.XSD.Element do
   defp add_min_occurs(map, element) do
     min_ocurrs =
       element
-      |> query('/xs:element/@min_ocurrs')
+      |> query('/xs:element/@minOccurs')
       |> fetch_result(8)
     %{map | min_ocurrs: min_ocurrs}
   end
@@ -50,7 +50,7 @@ defmodule Sun.XSD.Element do
   defp add_max_occurs(map, element) do
     max_ocurrs =
       element
-      |> query('/xs:element/@max_ocurrs')
+      |> query('/xs:element/@maxOccurs')
       |> fetch_result(8)
     %{map | max_ocurrs: max_ocurrs}
   end
@@ -82,8 +82,8 @@ defmodule Sun.XSD.Element do
   end
 
   defp get_complex_type(type, _element, [complex_types: [head|tail], simple_types: simple_types]) do
-    if List.to_string(type) === "cfdi:" <> List.to_string(head.name) do
-      head
+    if type === "cfdi:" <> head.name do
+      [head]
     else
       get_complex_type(type, [], [complex_types: tail, simple_types: simple_types])
     end

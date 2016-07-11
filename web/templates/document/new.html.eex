@@ -1,2 +1,28 @@
-<h2>New document</h2>
-<%= render_form(:catalogocuentas_11, @conn) %>
+<div class="page-title">
+  <ol class="breadcrumb">
+    <li><a href="#">Documentos</a></li>
+    <li class="active">CFDI v3.2</li>
+  </ol>
+  <div class="title-env">
+    <h1 class="title">
+      Documento
+      <a href="#" class="btn btn-lg btn-default pull-right, action-help", data-toggle: "tooltip" data-placement: "left" title: "Activar la ayuda en línea">
+        <i class="icon-live-help"></i>
+      </a>
+    </h1>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= render_form(String.to_atom(@type), @conn) %>
+  </div>
+  <div class="panel-footer">
+    Descarga el formato de ejemplo:
+    <a href="/templates/CatalogoCuentas-template.xlsx" download>
+      Excel
+    </a>,
+    <a href="/templates/CatalogoCuentas-template.xml" download>
+      XML
+    </a>
+  </div>
+</div>

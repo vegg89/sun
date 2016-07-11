@@ -5,8 +5,9 @@ defmodule Sun.DocumentController do
     render conn, "index.html"
   end
 
-  def new(conn, _params) do
-    render conn, "new.html"
+  def new(conn, %{"type" => type}) do
+    IO.puts type
+    render conn, "new.html", type: type
   end
 
   def create(conn, _params) do

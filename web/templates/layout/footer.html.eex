@@ -1,0 +1,19 @@
+<!-- Main Footer -->
+<!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
+<!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) -->
+<!-- Or class "fixed" to  always fix the footer to the end of page -->
+<footer class="main-footer container-fluid">
+	<div class="row">
+		<div class="col-xs-8">
+      <a href="http://www.diverza.com/terminos" target="_blank">Términos y condiciones</a>
+			<span>|</span>
+      <a href="http://www.diverza.com/privacidad" target="_blank">Aviso de privacidad</a>
+			<span>|</span> &copy; 1997 - 2016 Diverza Información y Análisis, SAPI de C.V.
+			<span>|</span> Version 0
+		</div>
+		<div class="col-xs-4 text-right style-diverza">
+			un producto de
+      <a href="http://www.diverza.com" target="_blank" class="logo"></a>
+		</div>
+	</div>
+</footer>

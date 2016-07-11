@@ -1,6 +1,6 @@
 <%= form_for @conn, document_path(@conn, :create), [as: :document], fn f -> %>
-  <%= for element <- @elements  do %>
+  <%= for element <- @document.elements  do %>
     <%= render "fieldset.html", element: element %>
   <%= end %>
-  <%= submit "Guardar" %>
+  <%= submit "Guardar", class: "btn btn-primary" %>
 <% end %>

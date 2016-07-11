@@ -14,7 +14,7 @@ defmodule Sun.XML.Parser do
   end
 
   def fetch_result([head|_], index) do
-    elem(head, index)
+    List.to_string(elem(head, index))
   end
 
   def fetch_result([], _) do

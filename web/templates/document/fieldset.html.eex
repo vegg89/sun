@@ -1,13 +1,11 @@
-<%= content_tag :fieldset do %>
-  <%= content_tag :legend do %>
-    <%= @element.name %>
-  <% end %>
-  <%= for attribute <- @element.attributes do %>
-    <%= attribute.name %>:
-    <%= text_input(String.to_atom(List.to_string(@element.name)), String.to_atom(List.to_string(attribute.name))) %>
-    <%= tag :br %>
-  <% end %>
-  <%= for element <- @element.elements  do %>
-    <%= render "fieldset.html", element: element %>
-  <% end %>
-<% end %>
+<% complex_type = List.first(@element.complex_type) %>
+<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <%= generate_panel_heading(@element) %>
+  </div>
+  <div class="panel-body">
+    <%= content_tag :fieldset, class: "form-group" do %>
+      <%= generate_element_section(@element) %>
+    <% end %>
+  </div>
+</div>

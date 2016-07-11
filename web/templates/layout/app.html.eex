@@ -8,28 +8,39 @@
     <meta name="author" content="">
 
     <title>Hello Sun!</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="http://ac24516e2b517d9e719a-91e7348769e876ba6091940d47ed5121.r13.cf1.rackcdn.com/assets/v1/styles/cover.css">
+    <link rel="stylesheet" href="http://ac24516e2b517d9e719a-91e7348769e876ba6091940d47ed5121.r13.cf1.rackcdn.com/assets/v1/styles/cover-app.css">
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
   </head>
 
-  <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+  <body class="v0 app-accounting style-buzon-fiscal">
+    <div class="layout">
+      <%= render "sidebar.html" %>
+      <div class="content">
+        <%= render "header.html" %>
+        <div class="page container-fluid">
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+            <%= render @view_module, @view_template, assigns %>
 
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
-
-    </div> <!-- /container -->
+        </div>
+        <%= render "footer.html" %>
+      </div>
+    </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script>
+      (function(app)
+      {
+        config = {
+          app: 'contabilidad',
+          version: '1.0'
+        };
+        app && app.init(config);
+      })(window.cover);
+      $(document).ready(function(){
+        $("td[data-link]").click(function() {
+          window.location = this.dataset.link;
+        });
+      });
+    </script>
   </body>
 </html>

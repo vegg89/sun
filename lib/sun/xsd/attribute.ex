@@ -66,8 +66,8 @@ defmodule Sun.XSD.Attribute do
   end
 
   defp get_simple_type(type, _attribute, [complex_types: complex_types, simple_types: [head|tail]]) do
-    if List.to_string(type) === "cfdi:" <> List.to_string(head.name) do
-      head
+    if type === "cfdi:" <> head.name do
+      [head]
     else
       get_simple_type(type, [], [complex_types: complex_types, simple_types: tail])
     end

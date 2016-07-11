@@ -1,0 +1,34 @@
+<div class="sidebar toggle-others">
+  <!-- logo -->
+  <header class="container-logo">
+    <a href="http://www.diverza.com" class="toggle-sidebar logo-expanded white-logo" target="_blank" data-toggle="sidebar"></a>
+    <a href="http://www.diverza.com" class="toggle-sidebar logo-collapsed white-logo-char" target="_blank" data-toggle="sidebar"></a>
+    <div class="mobile-menu-toggle visible-xs">
+    <a href="#" data-toggle="user-info-menu"> <i class="icon-notifications"></i> <span class="badge badge-success">7</span> </a>
+    <a href="#" data-toggle="mobile-menu"> <i class="icon-menu"></i> </a>
+    </div>
+  </header>
+  <div class="alert alert-note alert-dismissible action-app-help" id="action-app-help" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+    </button>
+    <a href="#">Ver el manual de usuario y ayuda.</a>
+  </div>
+  <ul id="main-menu" class="sidebar-menu">
+    <li class="opened active">
+      <a href="#">
+        <i class="icon-accounting"></i>
+        <span class="title">Documentos</span>
+      </a>
+      <ul>
+        <%#= nav_link 'icon-accounting-accounts', 'Catálogo de cuentas', accounting.account_catalogs_path %>
+        <%#= nav_link 'icon-accounting-balance', 'Balanza de comprobación', accounting.balances_path %>
+        <li><a href='/documents/new?type=polizas_11'><i class='icon-accounting-policy'></i> <span class='title'>Pólizas contables v1.1</span></a></li>
+        <li><a href='/documents/new?type=cfdi_32'><i class='icon-accounting-balance'></i> <span class='title'>CFDI v3.2</span></a></li>
+        <li><a href='/documents/new?type=balanza_11'><i class='icon-accounting-balance'></i> <span class='title'>Balanza v1.1</span></a></li>
+        <!--<li><a href='/documents/new?type=cfdi_32c'><i class='icon-accounting-balance'></i> <span class='title'>CFDI v3.2 Aduanas</span></a></li>-->
+        <%#= nav_link 'icon-accounting-policy', 'Pólizas contables', accounting.policies_path %>
+        <%#= nav_link 'icon-account-access', 'Certificados', certificates.certificates_path(session[:client_id]) %>
+      </ul>
+    </li>
+  </ul>
+</div>

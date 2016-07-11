@@ -1,0 +1,42 @@
+<% complex_type = List.first(@element.complex_type) %>
+<table id="<%=@element.name%>_table" class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <%= for attribute <- complex_type.attributes do %>
+        <td>
+          <%= attribute.name %>
+        </td>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for attribute <- complex_type.attributes do %>
+      <td>
+        <%= text_input(String.to_atom(@element.name), String.to_atom(attribute.name), class: "form-control", type: "text") %>
+      </td>
+    <% end %>
+    <td>
+    </td>
+  </tbody>
+</table>
+<fieldset id="<%=@element.name%>_form" style="display: none;">
+  <legend>
+    <%= "#{@element.name} nuevo" %>
+  </legend>
+  <%= for attribute <- complex_type.attributes do %>
+    <%= attribute.name %>
+    <%= text_input(String.to_atom(@element.name), String.to_atom(attribute.name), class: "form-control", type: "text") %>
+    <%= tag :br %>
+  <% end %>
+  <%= for element <- complex_type.elements  do %>
+    <%= render "fieldset.html", element: element %>
+  <% end %>
+  <%= link("Agregar #{@element.name}", to: "#", type: "button", class: "btn btn-primary", id: "new_#{@element.name}") %>
+</fieldset>
+<script>
+  $(document).ready(function(){
+    $("#<%= "new_#{@element.name}" %>").click(function(){
+      $("#<%= "#{@element.name}_form" %>").show();
+    });
+  });
+</script>
