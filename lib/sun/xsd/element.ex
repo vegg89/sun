@@ -72,18 +72,20 @@ defmodule Sun.XSD.Element do
   end
 
   defp add_complex_type(map, element, opts) do
-    %{map | complex_type: get_complex_type(map.type, element, opts) }
+    type = get_type(map.type)
+    %{map | complex_type: get_complex_type(type, element, opts) }
   end
 
   defp get_complex_type(nil, element, opts) do
     element
     |> query('/xs:element/xs:complexType')
+    |> hd
     |> ComplexType.parse_complex_types_from_xml(opts)
   end
 
   defp get_complex_type(type, _element, [complex_types: [head|tail], simple_types: simple_types]) do
-    if type === "cfdi:" <> head.name do
-      [head]
+    if type === head.name do
+      head
     else
       get_complex_type(type, [], [complex_types: tail, simple_types: simple_types])
     end
@@ -91,5 +93,15 @@ defmodule Sun.XSD.Element do
 
   defp get_complex_type(_type, _element, [complex_types: [], simple_types: _simple_types]) do
     nil
+  end
+
+  defp get_type(nil) do
+    nil
+  end
+
+  defp get_type(type) do
+    String.split(type, ":")
+    |> tl
+    |> hd
   end
 end

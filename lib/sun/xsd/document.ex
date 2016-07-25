@@ -23,14 +23,20 @@ defmodule Sun.XSD.Document do
   end
 
   defp get_simple_types(xsd_doc) do
-    xsd_doc
-    |> query('/xs:schema/xs:simpleType')
-    |> SimpleType.parse_simple_types_from_xml
+    simple_types =
+      xsd_doc
+      |> query('/xs:schema/xs:simpleType')
+    for simple_type <- simple_types do
+      SimpleType.parse_simple_types_from_xml(simple_type)
+    end
   end
 
   defp get_complex_types(xsd_doc) do
-    xsd_doc
-    |> query('/xs:schema/xs:complexType')
-    |> ComplexType.parse_complex_types_from_xml
+    complex_types =
+      xsd_doc
+      |> query('/xs:schema/xs:complexType')
+    for complex_type <- complex_types do
+      ComplexType.parse_complex_types_from_xml(complex_type)
+    end
   end
 end

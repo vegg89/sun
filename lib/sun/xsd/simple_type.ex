@@ -2,6 +2,7 @@ defmodule Sun.XSD.SimpleType do
   import Sun.XML.Parser
 
   defstruct name: nil,
+            base: nil,
             enumerations: [],
             fraction_digits: nil,
             length: nil,
@@ -15,38 +16,48 @@ defmodule Sun.XSD.SimpleType do
             total_digits: nil,
             white_space: nil
 
-  def parse_simple_types_from_xml(simple_types) do
-    for simple_type <- simple_types do
-      %Sun.XSD.SimpleType{}
-      |> add_name(simple_type)
-      |> add_enumerations(simple_type)
-      |> add_fraction_digits(simple_type)
-      |> add_length(simple_type)
-      |> add_max_exclusive(simple_type)
-      |> add_max_inclusive(simple_type)
-      |> add_max_length(simple_type)
-      |> add_min_exclusive(simple_type)
-      |> add_min_inclusive(simple_type)
-      |> add_min_length(simple_type)
-      |> add_pattern(simple_type)
-      |> add_total_digits(simple_type)
-      |> add_white_space(simple_type)
-    end
+  def parse_simple_types_from_xml(simple_type) do
+    %Sun.XSD.SimpleType{}
+    |> add_name(simple_type)
+    |> add_base(simple_type)
+    |> add_enumerations(simple_type)
+    |> add_fraction_digits(simple_type)
+    |> add_length(simple_type)
+    |> add_max_exclusive(simple_type)
+    |> add_max_inclusive(simple_type)
+    |> add_max_length(simple_type)
+    |> add_min_exclusive(simple_type)
+    |> add_min_inclusive(simple_type)
+    |> add_min_length(simple_type)
+    |> add_pattern(simple_type)
+    |> add_total_digits(simple_type)
+    |> add_white_space(simple_type)
   end
 
-  defp add_name(map, complex_type) do
+  defp add_name(map, simple_type) do
     name =
-      complex_type
+      simple_type
       |> query('/xs:simpleType/@name')
       |> fetch_result(8)
     %{map | name: name}
+  end
+
+  defp add_base(map, simple_type) do
+    base =
+      simple_type
+      |> query('/xs:simpleType/xs:restriction/@base')
+      |> fetch_result(8)
+    %{map | base: base}
   end
 
   defp add_enumerations(map, simple_type) do
     enumerations =
       simple_type
       |> query('/xs:simpleType/xs:restriction/xs:enumeration/@value')
-      |> fetch_result(8)
+    enumerations =
+      for enumeration <- enumerations do
+        fetch_result(enumeration, 8)
+      end
     %{map | enumerations: enumerations}
   end
 

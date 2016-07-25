@@ -13,11 +13,15 @@ defmodule Sun.XML.Parser do
     :xmerl_xpath.string(xpath, element)
   end
 
-  def fetch_result([head|_], index) do
+  def fetch_result([head|_tail], index) do
     List.to_string(elem(head, index))
   end
 
   def fetch_result([], _) do
     nil
+  end
+
+  def fetch_result(element, index) do
+    List.to_string(elem(element, index))
   end
 end

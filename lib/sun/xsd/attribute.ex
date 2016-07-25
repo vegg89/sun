@@ -47,27 +47,21 @@ defmodule Sun.XSD.Attribute do
     %{map | type: type}
   end
 
-  #defp add_simple_types(map, attribute) do
-  #  simple_types =
-  #    attribute
-  #    |> query('/xs:attribute/xs:simpleType')
-  #    |> SimpleType.parse_simple_types_from_xml
-  #  %{map | simple_types: simple_types}
-  #end
-
   defp add_simple_type(map, attribute, opts) do
-    %{map | simple_type: get_simple_type(map.type, attribute, opts) }
+    type = get_type(map.type)
+    %{map | simple_type: get_simple_type(type, attribute, opts) }
   end
 
   defp get_simple_type(nil, attribute, _opts) do
     attribute
     |> query('/xs:attribute/xs:simpleType')
+    |> hd
     |> SimpleType.parse_simple_types_from_xml
   end
 
   defp get_simple_type(type, _attribute, [complex_types: complex_types, simple_types: [head|tail]]) do
-    if type === "cfdi:" <> head.name do
-      [head]
+    if type === head.name do
+      head
     else
       get_simple_type(type, [], [complex_types: complex_types, simple_types: tail])
     end
@@ -75,5 +69,15 @@ defmodule Sun.XSD.Attribute do
 
   defp get_simple_type(_type, _element, [complex_types: _complex_types, simple_types: []]) do
     nil
+  end
+
+  defp get_type(nil) do
+    nil
+  end
+
+  defp get_type(type) do
+    String.split(type, ":")
+    |> tl
+    |> hd
   end
 end

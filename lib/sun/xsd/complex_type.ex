@@ -7,17 +7,15 @@ defmodule Sun.XSD.ComplexType do
             attributes: [],
             elements: []
 
-  def parse_complex_types_from_xml(complex_types) do
-    parse_complex_types_from_xml(complex_types, complex_types: [], simple_types: [] )
+  def parse_complex_types_from_xml(complex_type) do
+    parse_complex_types_from_xml(complex_type, complex_types: [], simple_types: [] )
   end
 
-  def parse_complex_types_from_xml(complex_types, opts) do
-    for complex_type <- complex_types do
-      %Sun.XSD.ComplexType{}
-      |> add_name(complex_type)
-      |> add_elements(complex_type, opts)
-      |> add_attributes(complex_type, opts)
-    end
+  def parse_complex_types_from_xml(complex_type, opts) do
+    %Sun.XSD.ComplexType{}
+    |> add_name(complex_type)
+    |> add_elements(complex_type, opts)
+    |> add_attributes(complex_type, opts)
   end
 
   defp add_name(map, complex_type) do
