@@ -2,29 +2,28 @@ exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
     javascripts: {
-      joinTo: "js/app.js"
-
-      // To use a separate vendor.js bundle, specify two files path
-      // https://github.com/brunch/brunch/blob/stable/docs/config.md#files
-      // joinTo: {
-      //  "js/app.js": /^(web\/static\/js)/,
-      //  "js/vendor.js": /^(web\/static\/vendor)|(deps)/
-      // }
-      //
-      // To change the order of concatenation of files, explicitly mention here
-      // https://github.com/brunch/brunch/tree/master/docs#concatenation
-      // order: {
-      //   before: [
-      //     "web/static/vendor/js/jquery-2.1.1.js",
-      //     "web/static/vendor/js/bootstrap.min.js"
-      //   ]
-      // }
+      joinTo: {
+        "js/app.js": /^(web\/static\/js)/,
+        "js/vendor.js": /^(web\/static\/vendor\/js)|(deps)/
+      },
+      order: {
+        before: [
+          "web/static/vendor/js/moment.min.js",
+          "web/static/vendor/js/bootstrap-datetimepicker.min.js"
+        ]
+      }
     },
     stylesheets: {
-      joinTo: "css/app.css"
+      joinTo: {
+        "css/app.css": /^(web\/static\/css)/,
+        "css/vendor.js": /^(web\/static\/vendor\/css)|(deps)/
+      }
     },
     templates: {
-      joinTo: "js/app.js"
+      joinTo: {
+        "js/app.js": /^(web\/static\/js)/,
+        "js/vendor.js": /^(web\/static\/css)|(deps)/
+      }
     }
   },
 
@@ -65,6 +64,6 @@ exports.config = {
     enabled: true,
     // Whitelist the npm deps to be pulled in as front-end assets.
     // All other deps in package.json will be excluded from the bundle.
-    whitelist: ["phoenix", "phoenix_html"]
+    whitelist: []
   }
 };
