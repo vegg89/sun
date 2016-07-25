@@ -1,9 +1,6 @@
-<% complex_type = List.first(@element.complex_type) %>
-<%= for attribute <- complex_type.attributes do %>
-  <%= attribute.name %>
-  <%= text_input(String.to_atom(@element.name), String.to_atom(attribute.name), class: "form-control", type: "text") %>
-  <%= tag :br %>
+<%= for attribute <- @element.complex_type.attributes do %>
+  <%= generate_control(attribute, @element.name) %>
 <% end %>
-<%= for element <- complex_type.elements  do %>
+<%= for element <- @element.complex_type.elements  do %>
   <%= render "fieldset.html", element: element %>
 <% end %>

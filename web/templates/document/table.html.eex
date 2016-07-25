@@ -1,8 +1,7 @@
-<% complex_type = List.first(@element.complex_type) %>
 <table id="<%=@element.name%>_table" class="table">
   <thead class="thead-inverse">
     <tr>
-      <%= for attribute <- complex_type.attributes do %>
+      <%= for attribute <- @element.complex_type.attributes do %>
         <td>
           <%= attribute.name %>
         </td>
@@ -10,9 +9,9 @@
     </tr>
   </thead>
   <tbody>
-    <%= for attribute <- complex_type.attributes do %>
+    <%= for attribute <- @element.complex_type.attributes do %>
       <td>
-        <%= text_input(String.to_atom(@element.name), String.to_atom(attribute.name), class: "form-control", type: "text") %>
+
       </td>
     <% end %>
     <td>
@@ -23,12 +22,10 @@
   <legend>
     <%= "#{@element.name} nuevo" %>
   </legend>
-  <%= for attribute <- complex_type.attributes do %>
-    <%= attribute.name %>
-    <%= text_input(String.to_atom(@element.name), String.to_atom(attribute.name), class: "form-control", type: "text") %>
-    <%= tag :br %>
+  <%= for attribute <- @element.complex_type.attributes do %>
+    <%= generate_control(attribute, @element.name) %>
   <% end %>
-  <%= for element <- complex_type.elements  do %>
+  <%= for element <- @element.complex_type.elements  do %>
     <%= render "fieldset.html", element: element %>
   <% end %>
   <%= link("Agregar #{@element.name}", to: "#", type: "button", class: "btn btn-primary", id: "new_#{@element.name}") %>

@@ -1,0 +1,6 @@
+<div class="form-group">
+  <label for="<%= "#{@parent_name}_#{@name}" %>"><%= @name %></label>
+  <div class="input-group">
+    <%= select(String.to_atom(@parent_name), String.to_atom(@name), [""|@options], class: "form-control") %>
+  </div>
+</div>

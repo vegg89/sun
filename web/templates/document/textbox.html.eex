@@ -1,0 +1,6 @@
+<div class="form-group">
+  <label for="<%= "#{@parent_name}_#{@name}" %>"><%= @name %></label>
+  <div class="input-group">
+      <%= text_input(String.to_atom(@parent_name), String.to_atom(@name), class: "form-control", type: "text", placeholder: @name) %>
+  </div>
+</div>
